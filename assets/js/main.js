@@ -75,7 +75,7 @@ function redirect(event){
 			}
 		}
 		console.log(nombre.value+"-"+apellido.value+"-"+dni.value+"-"+nro_asiento.value)
-	}*/
+	}
 	
 	document.getElementById("mostrarFormReserva").innerHTML = formReserva;
 
