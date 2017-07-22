@@ -98,7 +98,7 @@ function cancelarAsiento(){
 	{
 		if(nro_asiento == asientos[i].nro_asiento ){
 			asientos.splice(i, 1);
-			console.log(asientos[i].nro_asiento+"."+nro_asiento)
+			//console.log(asientos[i].nro_asiento+"."+nro_asiento)
 		}
 		console.log(asientos);
 	}
