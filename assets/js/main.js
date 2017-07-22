@@ -24,7 +24,7 @@ function crearAsientos(asientos){ //creo mis asientos
 			asientosHTML += "<td>"+ ( numeroDeAsiento ) +"</td>";
 			numeroDeAsiento += 4;
 		}
-		(i == 2 )? pasillo += "<br><td></td></br>":pasillo = "";
+		(i == 2 )? pasillo += "<td></td>":pasillo = "";
 		asientosHTML += "</tr>"+pasillo;
 	}
 	asientosHTML += "</table>";
@@ -53,8 +53,8 @@ function redirect(event){
 		"<p><label>N° DNI: </label><br>"+
 		"<input type='text' id='dni' required></p>";
 
-	var button = "<button onclick='reservarAsiento()'>Guardar Reserva</button>"+
-		"<button onclick='cancelarAsiento()'>Cancelar Reserva</button>"
+	var button = "<button  onclick='reservarAsiento()'>Guardar</button>"+
+		"<button  onclick='cancelarAsiento()'>Cancelar Reserva</button>";
 	formReserva += button;
 	document.getElementById("mostrarFormReserva").innerHTML = formReserva;
 
@@ -66,7 +66,6 @@ function redirect(event){
 			if(asientos[i].nro_asiento == asiento){
 				indice = i;}
 			document.getElementById('nombre').value = asientos[indice].nombre;
-			nombre.disabled = "true";
 			document.getElementById('apellido').value = asientos[indice].apellido;
 			document.getElementById('dni').value = asientos[indice].dni;
 		}
@@ -79,36 +78,51 @@ function reservarAsiento(){
 	var nombre = document.getElementById('nombre').value;
 	var apellido = document.getElementById('apellido').value;
 	var dni = document.getElementById('dni').value;
+	if(nro_asiento != "" && nombre != "" && apellido != "" && dni != ""){
 
-	var pasajeros  = new Pasajero(nombre, apellido, dni, nro_asiento);
-	asientos.push(pasajeros);
-	colorCelda.style.backgroundColor ="red"
+		var pasajeros  = new Pasajero(nombre, apellido, dni, nro_asiento);
+		asientos.push(pasajeros);
+		colorCelda.style.backgroundColor ="red";
+		alert("guadado con Exito");
+	}else{
+		alert("ingrese datos");
+	}
 	console.log(asientos)
 }
 
 function cancelarAsiento(){
 	
 	var nro_asiento = document.getElementById("nro_asiento").value;
-	var indice = 0;
+
 	for(var i = 0; i < asientos.length; i++)
 	{
-		if(nro_asiento == asientos[i].nro_asiento )
-			indice = i;
+		if(nro_asiento == asientos[i].nro_asiento ){
+			asientos.splice(i, 1);
+			console.log(asientos[i].nro_asiento+"."+nro_asiento)
+		}
+		console.log(asientos);
 	}
-	asientos.splice(indice, 1);
+	
 	colorCelda.style.backgroundColor ="white";
+	alert("se elimino reserva")
 	limpiar();
 	//console.log(asientos)
 }
 function mostrarLista(){
 	var listaPasajeros = "<table>";
-	listaPasajeros += "<tr><td colspan='2'>   Apellidos y Nombres   </td>"+
-		"<td>  N° DNI  </td><td>N° de Asiento</td></tr>";
-	for(var i = 0; i < asientos.length; i++)
-	{
-		listaPasajeros += "<tr><td>"+asientos[i].apellido+"</td><td>"+asientos[i].nombre+"</td>"+
-			"<td>"+asientos[i].dni+"</td><td>"+asientos[i].nro_asiento+"</td></tr>";
-	}
+	listaPasajeros += "<tr><td>N°</td><td> Asiento N°</td><td colspan='2'>   Apellidos y Nombres   </td>"+
+		"<td>  N° DNI  </td></tr>";
+		if (asientos.length != 0) {
+			for(var i = 0; i < asientos.length; i++)
+			{
+				listaPasajeros += "<tr><td>"+(i + 1)+"</td><td>"+asientos[i].nro_asiento+"</td>"+
+					"<td>"+asientos[i].nombre+"</td><td>"+asientos[i].dni+"</td>"+
+					"<td>"+asientos[i].apellido+"</td></tr>";
+			}
+		}else{
+			listaPasajeros += "<h2>No hay pasajeros</h2>"
+		}
+	
 	listaPasajeros += "</table>";
 	document.getElementById('listaPasajeros').innerHTML = listaPasajeros;
 }
@@ -129,17 +143,16 @@ function buscarPasajero(){
 }
 
 function limpiar(){
-	console.log(document.getElementById('nombre').disabled)
-	if(document.getElementById('nombre').disabled == true ){
+
+	if(colorCelda.style.backgroundColor == "red" ){
 		nombre.disabled = "true";
 		dni.disabled = "true";
 		apellido.disabled = "true";
+		alert("Este asieto esta reservado \n Seleccione otro Asiento \n O Elimine Reserva")
 	}else{
 		nombre.value = "";
 		dni.value = "";
 		apellido.value = "";
 	}
-	
-	
 	document.getElementById('listaPasajeros').innerHTML = "";
 }

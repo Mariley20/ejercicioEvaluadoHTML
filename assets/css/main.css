@@ -10,7 +10,7 @@ body {
 h1 {
   margin-bottom: 0;
 }
-h1 + p {
+h1 + p  {
   font-size: 1.08em;
   color: #637a91;
   margin-top: .5em;
@@ -46,6 +46,10 @@ div {
 }
 p.description,
 p:nth-of-type(2) {
+  font-weight: bold;
+}
+label.description,
+label:nth-of-type(2) {
   font-weight: bold;
 }
 /* Buttons */
